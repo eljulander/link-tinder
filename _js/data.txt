@@ -1,1 +1,18 @@
-[object Object]
+OOPS!
+Oops. Err.
+Oops. Err.
+Oops. Err.
+Done Validating Links!
+Links Found: 5
+https://www.box.com/
+https://byui.brainhoney.com/resource/14853/Web/Style/Image/ilearnheader.png
+https://www.somefakewebsite.com/superfakeaddressofsupremefakeness
+https://www.somefakewebsite.com/superfakeaddressofsupremefakeness/image.jpg
+http://s2.quiaaskmezme.com/img/48/4862f4470077b76a24a7db571d4569c84a10149677298d6c305a6928f7c06afe.jpgz
+Response:  200 URL:  http://cdn.shopify.com undefined
+Response:  200 URL:  http://cdn.shopify.com undefined
+Response:  200 URL:  http://www.google.com undefined
+Response:  200 URL:  http://s2.quickmeme.com undefined
+Response:  200 URL:  https://byui.brainhoney.com/resource/14853/Web/Style/Image/ilearnheader.png undefined
+Response:  200 URL:  https://www.box.com/ undefined
+Response:  200 URL:  https://shib.byui.edu:443/idp/AuthnEngine undefined
