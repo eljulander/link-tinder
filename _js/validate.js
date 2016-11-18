@@ -2,11 +2,21 @@ function printFlag(){
     var args = Array.prototype.slice.call(arguments);
     args.map(function(arg){
         var message = "";
-        for(var i = 0; i < arg.toString().length+6; i++)
-            message += "*"; 
-        message += "\n*  "+arg+"  *\n";
-        for(var i = 0; i < arg.toString().length+6; i++)
-            message += "*"; 
+        var length = ((arg.length < 80)? arg.length : 80)+4;
+        for(var i = 0; i < length; i ++) message += "*";
+        var sections = arg.match(/.{1,80}/g);
+        sections.map(function(section){
+            message += "\n*";
+            var minlen = (length - section.length)-2;
+            if(minlen%2 != 0)
+                minlen++;
+            for(var i = 0; i < minlen/2; i ++)message += " ";
+            message += section;
+            for(var i = 0; i < minlen/2; i ++)message += " ";
+            message += "*";
+        });
+        message += "\n";
+        for(var i = 0; i < length; i ++) message += "*";
         console.log(message);
     });
 }
@@ -19,6 +29,7 @@ var LinkValidator = function (file) {
     this.invalidLinks = [];
     this.unsure = [];
 }
+var $async = require("async");
 var cheerio = require("cheerio")
 var linkValidator = LinkValidator.prototype;
     
@@ -41,23 +52,25 @@ linkValidator.getLinksFromXML = function () {
             htmlDocument += document;
         }
         return cheerio.load(htmlDocument)("a, img");
-    }
+};
+    
 linkValidator.getLinks = function(){
-    return cheerio.load(this.file)("a, img");
-}
+        return cheerio.load(this.file)("a, img");
+};
+    
 //links is a cheerio object
 linkValidator.validateLinks = function (links, runNext) {
     var me  = this;
-    var waiting = [];
-    function exists(link, index, next) {
-        waiting.push(index);
+ 
+    function exists(link, nextPhase) {
+      
         var url = link.attr("href") || link.attr("src");
         var parser = require("url");
         var stringer = require("querystring");
         var options = {
             method:"head",
-            host: parser.parse(url, true).hostname
-            ,path: parser.parse(url, true).pathname +"?"+stringer.stringify(parser.parse(url, true).query)
+            host: parser.parse(url, true).hostname,
+            path: parser.parse(url, true).pathname +"?"+stringer.stringify(parser.parse(url, true).query)
         }
         var done = false;
         if (!options.host) options.host = "byui.brightspace.com";
@@ -77,7 +90,7 @@ linkValidator.validateLinks = function (links, runNext) {
                 
             }
             done = true;
-            next();
+            nextPhase(null, link);
         }
         
         var http = require("follow-redirects").http;
@@ -85,8 +98,7 @@ linkValidator.validateLinks = function (links, runNext) {
             me.invalidLinks.push(link);
             console.log("Oops. Err.", url);
             done = true;
-            next();
-
+             nextPhase(null, link);
         }).end();
         
         setTimeout(function(){
@@ -94,30 +106,24 @@ linkValidator.validateLinks = function (links, runNext) {
             if(!done){
                 console.log("Abort Mission!");
                 this.unsure.push(link);
-                next();
-                console.log(me.unsure);
+                nextPhase(null, link);
+                //console.log(me.unsure);
             }
-            waiting.splice(0,1);
-    //        printFlag(waiting.length);
-            if(waiting.length <= 0)
-                next();
+           
         },2500);
         
     }
     
-    function checkNext(){
-        if(links.length <= 0){
-      //      printFlag("FIN")
-            if(waiting.length > 0) return;
-            printFlag("Finished Processing!")
-            runNext();
-            return;
-        }
-        var currentAnchor = links.eq(0);
-        exists(currentAnchor, 0, checkNext);
-        links.splice(0,1);
-    }
-    checkNext();
+    var linkArray = [];
+    for(var i = 0; i < links.length; i ++)
+        linkArray.push(links.eq(i));
+
+    $async.map(linkArray, exists, function(err, results){
+        if(err) printFlag("There was an err");
+        printFlag("The super awesome thing has been accomplished!");
+        runNext();
+    });
+    
 }
 
 linkValidator.getBroken = function (links) {
@@ -188,6 +194,5 @@ fileReader.on("end", function () {
     lv.getBroken(anchors);
 
 });
-     console.log("OOPS!");
     return LinkValidator;
 }());
