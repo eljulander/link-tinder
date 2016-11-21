@@ -1,3 +1,1 @@
-{
-    "blacklist":["brainhoney.com",  "box.com"]
-}
+{"blacklist":["brainhoney.com","box.com"],"csvPath":"C:\\Users\\eljulander\\Documents\\Projects","csvName":"test"}

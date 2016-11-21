@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <link rel="stylesheet" type="text/css" href="search.css"> </head>
+
+<body>
+    <a href="../index.html">Back</a>
+    <main id="entry"> </main>
+    <script>
+        if (typeof module === 'object') {
+            window.module = module;
+            module = undefined;
+        }
+    </script>
+    <script src="../_js/jquery-3.1.1.min.js">
+        if (window.module) module = window.module;
+    </script>
+    <script src="../_js/handlebars-v4.0.5.js"></script>
+    <script id="entry-template" type="text/x-handlebars-template">
+        <div class="entry">
+            <h1>Forbidden Link Dictionary</h1>
+            <p>If there is a link containg part of a URL in the list below, it will be flaged as broken.</p>
+            <div class="body"> 
+                <div>
+                    {{#each blacklist}}
+                        <div class="row">
+                            <input type="text" value="{{this}}"/>
+                            <div class="remove">X</div>
+                        </div>
+                    {{/each}}
+                    <input id="new" placeholder="New Item" />
+                    <div id="add" onclick="addItem()">Add Item</div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script src="search.js"></script>
+</body>
+
+</html>

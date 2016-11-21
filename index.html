@@ -8,11 +8,27 @@
 
 <body>
     <header>
-        <h1>Welcome to the Drag N Drop</h1> </header>
+        <h1>Welcome to the Drag N Drop</h1> 
+    </header>
     <main>
         <div id="dropper" class="">
             <p>Drop your Stuff Here</p>
         </div>
+        <div id="csv_dest">
+            <div id="selectionField">
+            <h2>CSV Destination</h2>
+                <p onclick="openDialog()" value=""><strong>Choose Folder</strong></p>
+                <p id="filepath">C:/</p>
+            </div>
+            
+            <div id="selectionField">
+            <h2>CSV Name</h2>
+                <input type="text" id="csvName">
+                .CSV
+            </div>
+            <a href="./search/search.html">Preferences</a>
+        </div>
+       
     </main>
     <script>
         if (typeof module === 'object') {

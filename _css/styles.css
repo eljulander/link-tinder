@@ -1,14 +1,2 @@
-h1{
-    text-align: center;
-}
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
-#dropper{
-    background-color: antiquewhite;
-    width: 700px;
-    height: 400px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    justify-content: center;
-}

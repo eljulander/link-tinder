@@ -143,7 +143,7 @@ linkValidator.validateLinks = function (links, runNext) {
            // console.log("Triggered", url);
             if(!done){
                 console.log("Abort Mission!");
-                this.unsure.push(link);
+                me.unsure.push(link);
                 nextPhase(null, link);
                 //console.log(me.unsure);
             }
