@@ -41,11 +41,12 @@ var LinkValidator =
 var fs = require("fs");
 var LinkValidator = function (file) {
     this.file = file;
+    this.fileName = "";
     this.invalidLinks = [];
     this.unsure = [];
     this.valid = [];
     this.blackList = JSON.parse(fs.readFileSync("./properties.json").toString()).blacklist;
-    console.flag("Blacklist\n"+this.blackList);
+    //console.flag("Blacklist\n"+this.blackList);
 }
 var $async = require("async");
 var cheerio = require("cheerio")
@@ -192,52 +193,4 @@ linkValidator.removeDuplicates = function(){
 }());
 
 
-
-/*************
- * CLI TESTS *
- *************/
-if (process.argv[2] === "--test")
-    (function () {
-        var lv = new LinkValidator("");
-        var fs = require("fs");
-        var fileReader = fs.createReadStream(process.argv[3]);
-        fileReader.on("data", function (chunk) {
-            lv.file += chunk.toString("utf8");
-        });
-        fileReader.on("end", function () {
-            var anchors = (process.argv[4] === "-xml") ? lv.getLinksFromXML() : lv.getLinks();
-            // writes all links found to a document
-            var doc = "";
-            for (var i = 0; i < anchors.length; i++) {
-                var currentAnchor = anchors.eq(i).attr("href") || anchors.eq(i).attr("src");
-                doc += currentAnchor + "\n-------------------------------------------------\n";
-            }
-            fs.writeFile("./test.html", doc, function (err) {
-                if (err) throw err;
-            });
-            // prints results of links
-            lv.validateLinks(anchors, function () {
-                console.flag("Done Validating Links!\nBroken Links Found: " + lv.invalidLinks.length + "\n" + "Unsure Links: " + lv.unsure.length + "\nCorrect: " + (anchors.length - lv.invalidLinks.length - lv.unsure.length));
-                lv.removeDuplicates();
-                if (lv.invalidLinks.length > 0) {
-                    console.log("\n");
-                    console.flag("Broken: ");
-                    for (var i = 0; i < lv.invalidLinks.length; i++) {
-                        console.log(lv.invalidLinks[i].attr("href") || lv.invalidLinks[i].attr("src"));
-                    }
-                }
-                if (lv.unsure.length > 0) {
-                    console.log("\n");
-                    console.flag("Unsure:");
-                    for (var i = 0; i < lv.unsure.length; i++) {
-                        console.log(lv.unsure[i].attr("href") || lv.unsure[i].attr("src"));
-                    }
-                }
-                if (lv.valid.length > 0) {
-                    console.log("\n");
-                    console.flag("Valid: ");
-                    for (var i in lv.valid) console.log(lv.valid[i].attr("src") || lv.valid[i].attr("src"));
-                }
-            });
-        });
-    }());
+module.exports = LinkValidator;
