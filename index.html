@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <link rel="stylesheet" type="text/css" href="_css/styles.css"> </head>
+
+<body>
+    <header>
+        <h1>Welcome to the Drag N Drop</h1> </header>
+    <main>
+        <div id="dropper" class="">
+            <p>Drop your Stuff Here</p>
+        </div>
+    </main>
+    <script>
+        if (typeof module === 'object') {
+            window.module = module;
+            module = undefined;
+        }
+    </script>
+    <script src="_js/jquery-3.1.1.min.js"></script>
+    <script>
+        if (window.module) module = window.module;
+    </script>
+    <script src="_js/drop.js"></script>
+</body>
+
+</html>

@@ -45,7 +45,7 @@ var LinkValidator = function (file) {
     this.invalidLinks = [];
     this.unsure = [];
     this.valid = [];
-    this.blackList = JSON.parse(fs.readFileSync("./properties.json").toString()).blacklist;
+    this.blackList = JSON.parse(fs.readFileSync("./_js/properties.json").toString()).blacklist;
     //console.flag("Blacklist\n"+this.blackList);
 }
 var $async = require("async");

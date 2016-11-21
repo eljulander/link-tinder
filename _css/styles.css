@@ -1,0 +1,14 @@
+h1{
+    text-align: center;
+}
+
+#dropper{
+    background-color: antiquewhite;
+    width: 700px;
+    height: 400px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+}
