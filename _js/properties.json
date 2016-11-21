@@ -1,3 +1,3 @@
 {
-    blacklist:["byui.brainhoney.com","box.com", "byui.brightspace.com"],
+    "blacklist":["brainhoney.com",  "box.com"]
 }

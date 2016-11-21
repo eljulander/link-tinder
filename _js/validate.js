@@ -9,7 +9,7 @@ console = (function () {
      Prints a star border around the specified text.
      There is an 80 character limit per line before it wraps.
      */
-    function printFlag() {
+    function flag() {
         var me = this;
         var args = Array.prototype.slice.call(arguments);
         args.map(function (arg) {
@@ -31,19 +31,21 @@ console = (function () {
             me.log(message);
         });
     }
-    CONSOLE.printFlag = printFlag;
+    CONSOLE.flag = flag;
     return CONSOLE;
 }());
 
 
 var LinkValidator =     
 (function(){
-
+var fs = require("fs");
 var LinkValidator = function (file) {
     this.file = file;
     this.invalidLinks = [];
     this.unsure = [];
     this.valid = [];
+    this.blackList = JSON.parse(fs.readFileSync("./properties.json").toString()).blacklist;
+    console.flag("Blacklist\n"+this.blackList);
 }
 var $async = require("async");
 var cheerio = require("cheerio")
@@ -79,7 +81,7 @@ linkValidator.validateLinks = function (links, runNext) {
     var me  = this;
  
     function isBroken(url){
-        var urls = ["brainhoney.com",  "box.com"];
+        var urls = me.blackList;
         var broken = false;
         for(var i in urls){
             var current = urls[i];
@@ -154,7 +156,7 @@ linkValidator.validateLinks = function (links, runNext) {
         linkArray.push(links.eq(i));
 
     $async.map(linkArray, exists, function(err, results){
-        if(err) console.printFlag("There was an err");
+        if(err) console.flag("There was an err");
         runNext();
     });
     
@@ -189,6 +191,11 @@ linkValidator.removeDuplicates = function(){
     return LinkValidator;
 }());
 
+
+
+/*************
+ * CLI TESTS *
+ *************/
 if (process.argv[2] === "--test")
     (function () {
         var lv = new LinkValidator("");
@@ -210,25 +217,25 @@ if (process.argv[2] === "--test")
             });
             // prints results of links
             lv.validateLinks(anchors, function () {
-                console.printFlag("Done Validating Links!\nBroken Links Found: " + lv.invalidLinks.length + "\n" + "Unsure Links: " + lv.unsure.length + "\nCorrect: " + (anchors.length - lv.invalidLinks.length - lv.unsure.length));
+                console.flag("Done Validating Links!\nBroken Links Found: " + lv.invalidLinks.length + "\n" + "Unsure Links: " + lv.unsure.length + "\nCorrect: " + (anchors.length - lv.invalidLinks.length - lv.unsure.length));
                 lv.removeDuplicates();
                 if (lv.invalidLinks.length > 0) {
                     console.log("\n");
-                    console.printFlag("Broken: ");
+                    console.flag("Broken: ");
                     for (var i = 0; i < lv.invalidLinks.length; i++) {
                         console.log(lv.invalidLinks[i].attr("href") || lv.invalidLinks[i].attr("src"));
                     }
                 }
                 if (lv.unsure.length > 0) {
                     console.log("\n");
-                    console.printFlag("Unsure:");
+                    console.flag("Unsure:");
                     for (var i = 0; i < lv.unsure.length; i++) {
                         console.log(lv.unsure[i].attr("href") || lv.unsure[i].attr("src"));
                     }
                 }
                 if (lv.valid.length > 0) {
                     console.log("\n");
-                    console.printFlag("Valid: ");
+                    console.flag("Valid: ");
                     for (var i in lv.valid) console.log(lv.valid[i].attr("src") || lv.valid[i].attr("src"));
                 }
             });
