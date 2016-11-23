@@ -1,1 +1,1 @@
-{"blacklist":["brainhoney.com","box.com"],"csvPath":"C:\\Users\\eljulander\\Documents\\Projects","csvName":"test"}
+{"blacklist":[{"link":"brainhoney.com","global":true},{"link":"thinggy","global":false}],"csvPath":"C:\\Users\\eljulander\\Documents\\Projects","csvName":"eric_new_export"}

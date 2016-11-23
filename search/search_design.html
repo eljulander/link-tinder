@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 
 <head>
     <meta charset="UTF-8">
-    <title>Course Search URL Blacklist</title>
+    <title>Hello World!</title>
     <link rel="stylesheet" type="text/css" href="../_css/styles.css">
     <link rel="stylesheet" type="text/css" href="search.css"> </head>
 
@@ -15,7 +15,27 @@
             </div>
         </div>
         <h1>Forbidden Link Dictionary</h1> </header>
-    <main id="entry"> </main>
+    <main id="entry">
+        <div class="entry">
+            <h2>If there is a link containg part of a URL in the list below, it will be flaged as broken.</h2>
+            <div class="body">
+                <div>
+                    <div class="row">
+                        <input type="text" value="brainhoney.com">
+                        <div class="remove"><img src="../delete.png"></div>
+                    </div>
+                    <div class="row">
+                        <input type="text" value="box.com">
+                        <div class="remove"><img src="../delete.png"></div>
+                    </div>
+                    <div class="row">
+                        <input id="new" placeholder="New Item">
+                        <div id="add" onclick="addItem()">Add Item</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
     <script>
         if (typeof module === 'object') {
             window.module = module;
@@ -30,17 +50,11 @@
         <div class="entry">
             <h2>If there is a link containg part of a URL in the list below, it will be flaged as broken.</h2>
             <div class="body">
-                <div> 
-                    {{#each blacklist}}
+                <div> {{#each blacklist}}
                     <div class="row">
-                        <div><p>{{this.link}}</p></div>
-                        {{#if this.global}}
-                        <div><p class="global">Global</p></div> 
-                        {{else}}
-                        <div class="remove"><img src="../delete.png" /></div> 
-                        {{/if}} 
-                    </div> 
-                    {{/each}}
+                        <input type="text" value="{{this}}" />
+                        <div class="remove"><img src="../delete.png"></div>
+                    </div> {{/each}}
                     <div class="row">
                         <input id="new" placeholder="New Item" />
                         <div id="add" onclick="addItem()">Add Item</div>

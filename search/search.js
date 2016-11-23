@@ -11,7 +11,7 @@ function addItem() {
     console.log("Thinggy!");
     var newItem = $("#new").val().trim();
     if (newItem) {
-        context.blacklist.push(newItem);
+        context.blacklist.push({link:newItem, global:false});
         loadFromSource();
         writePreferences();
     }

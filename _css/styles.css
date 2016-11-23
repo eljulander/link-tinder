@@ -1,2 +1,93 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+/*Background*/
+@import url('https://fonts.googleapis.com/css?family=Merriweather|Open+Sans');
 
+html,body{
+    background-color: #e6e6e6;
+    font-family: 'Merriweather', serif;
+    font-family: 'Open Sans', sans-serif;
+    color:#2c2d2f;
+    margin:0;
+    padding:0;
+}
+/*Foreground*/
+main{
+    background-color: #e6e6e6;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding:2.5%;
+}
+/*H1*/
+header{
+    background-color: #0076C6;
+    display: flex;
+    justify-content: flex-start;
+    text-align: center;
+}
+h1{
+    color:#ffffff;
+    background-color: #0076C6;
+    margin: 0;
+    text-align: center;
+    padding:1.5%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width:1000%;
+}
+/*H2*/
+h2{
+    color: #112236;
+}
+/*Text*/
+#filepath{
+    color: grey;
+    font-size: .95em;
+}
+
+#fileopen{
+    cursor: pointer;
+    text-align: center;
+    padding:2.5%;
+    width: 50%;
+    margin: auto;
+    border:2px solid #333333;
+    background-color: #0076C6;
+    color:white;
+}
+
+/*Dropper*/
+#dropper{
+    background-color: #f7fbff;
+    display: flex;
+    justify-content:center;
+    flex-flow: column;
+    width:50%;
+    text-align: center;
+    font-size: 2em;
+    box-shadow: 0px 0px 5px 0.5px #888888;
+    padding:2.5%;
+}
+/*Dest Panel*/
+#csv_dest{
+    padding:2.5%;
+    background-color: #f7fbff;
+    box-shadow: 0px 0px 5px 0.5px #888888;
+}
+/*Settings*/
+#preferences{
+   display: flex;
+    justify-content: center;
+    flex-flow: column;
+    padding:2.5%;
+}
+.nameField{
+    display: flex;
+    justify-content: center;
+}
+
+.content_area{
+    padding:2.5%;
+    background-color: #f7fbff;
+    box-shadow: 0px 0px 5px 0.5px #888888;
+}

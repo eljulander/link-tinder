@@ -3,32 +3,39 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>Course Export Link Validator</title>
     <link rel="stylesheet" type="text/css" href="_css/styles.css"> </head>
 
 <body>
     <header>
-        <h1>Welcome to the Drag N Drop</h1> 
+        <div id="preferences">
+                <div> <a href="./search/search.html"><img width="50" height="50" src="gear_white.png"></a> </div>
+        </div>
+        <h1>Link Validator</h1>
     </header>
     <main>
         <div id="dropper" class="">
-            <p>Drop your Stuff Here</p>
+            <strong>
+                <p>Drop your zipped <br> course export here</p>
+            </strong>
         </div>
         <div id="csv_dest">
-            <div id="selectionField">
-            <h2>CSV Destination</h2>
-                <p onclick="openDialog()" value=""><strong>Choose Folder</strong></p>
-                <p id="filepath">C:/</p>
+            <div class="selectionField">
+                <h2>CSV Report Destination</h2>
+                <h3>Destination Folder</h3>
+                <strong>
+                    <p id="filepath">C:/</p>
+                </strong>
+                <div id="fileopen" onclick="openDialog()" value="">Choose Folder</div>
             </div>
-            
-            <div id="selectionField">
-            <h2>CSV Name</h2>
-                <input type="text" id="csvName">
-                .CSV
+            <div class="selectionField">
+                <h3>CSV Name</h3>
+                <div class="nameField">
+                    <input type="text" id="csvName"><strong> .CSV</strong>
+                </div>
             </div>
-            <a href="./search/search.html">Preferences</a>
         </div>
-       
+            
     </main>
     <script>
         if (typeof module === 'object') {
