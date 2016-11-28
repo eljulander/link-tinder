@@ -163,18 +163,6 @@ linkValidator.validateLinks = function (links, runNext) {
     
 }
 
-linkValidator.getBroken = function (links) {
-    
-    return;
-    
-    for(var i = 0; i < links.length; i ++){
-        var current = links.eq(i);
-        var broken = isBroken(current.attr("href") || current.attr("src"));
-        if(broken)
-            this.invalidLinks.push(current);
-    }
-}
-
 linkValidator.removeDuplicates = function(){
     var me = this;
     var hrefs = [];

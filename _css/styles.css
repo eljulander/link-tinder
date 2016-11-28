@@ -13,6 +13,7 @@ html,body{
 main{
     background-color: #e6e6e6;
     display: flex;
+    margin: auto;
     justify-content: space-between;
     flex-wrap: wrap;
     padding:2.5%;
@@ -51,7 +52,7 @@ h2{
     padding:2.5%;
     width: 50%;
     margin: auto;
-    border:2px solid #333333;
+/*    border:2px solid #333333;*/
     background-color: #0076C6;
     color:white;
 }
@@ -90,4 +91,20 @@ h2{
     padding:2.5%;
     background-color: #f7fbff;
     box-shadow: 0px 0px 5px 0.5px #888888;
+}
+
+
+/*
+ * Some Smaller Screen Modifications
+ */
+@media screen and (max-width: 770px) {
+  
+    
+    main{
+        justify-content: center;
+    }
+    main > *{
+        margin-top:2.5%;
+    }
+    
 }

@@ -1,4 +1,6 @@
 var fs = require("fs");
+var Redirect = require("../PageDirector");
+var redirect = new Redirect();
 var context = JSON.parse(fs.readFileSync("_js/properties.json").toString());
 
 function writePreferences(){
@@ -40,10 +42,7 @@ function loadFromSource() {
     });
 }
 loadFromSource();
+
 $("#back").click(function(){
-    win.loadURL(url.format({
-    pathname: path.join(__dirname, '../index.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
+    redirect.goToPage("index.html");
 });

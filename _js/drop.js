@@ -2,6 +2,9 @@ var DirScanner = require("./_js/DirScanner");
 var ReportGenerator = require("./_js/ReportGenerator");
 var fs = require("fs");
 var context = JSON.parse(fs.readFileSync("_js/properties.json").toString());
+var Redirect = require("./PageDirector");
+var redirect = new Redirect();
+console.log(redirect.applicationRoot);
 console.log(context);
 
 $("#filepath").html(context.csvPath);
@@ -58,6 +61,7 @@ $("#csvName").keyup(function(evt){
             alert("You must provide a name for the CSV file!");
         }
 });
+
 function openSearchParameters(){
     win.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),
@@ -65,3 +69,6 @@ function openSearchParameters(){
     slashes: true
   }))
 }
+$("#preferences").click(function(){
+    redirect.goToPage("search/search.html");
+});
