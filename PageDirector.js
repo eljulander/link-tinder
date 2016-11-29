@@ -6,6 +6,7 @@ var Director = (function () {
         const ipc = require('electron').ipcRenderer;
         ipc.send('load-page', 'file://' + this.applicationRoot + "/" + page);
     }
+    
     return DIR;
 }());
 module.exports = Director;

@@ -1,3 +1,4 @@
+///*
 var DirScanner = require("./_js/DirScanner");
 var ReportGenerator = require("./_js/ReportGenerator");
 var fs = require("fs");
@@ -6,6 +7,7 @@ var Redirect = require("./PageDirector");
 var redirect = new Redirect();
 console.log(redirect.applicationRoot);
 console.log(context);
+//*/
 
 $("#filepath").html(context.csvPath);
 
@@ -71,4 +73,27 @@ function openSearchParameters(){
 }
 $("#preferences").click(function(){
     redirect.goToPage("search/search.html");
+});
+
+
+$("#close").click(function(){
+    console.log("Cliecke")
+    $(".authenticate").css({visibility:"hidden"});
+});
+
+function clearSelected(){
+    $('.selected').removeClass("selected");
+}
+
+$("#admin").click(function(){
+    console.log("clicked!");
+    clearSelected();
+    $(this).addClass("selected");
+    $("#loginBox").attr("src", "https://byui.brightspace.com/d2l/login?noredirect=1");
+});
+$("#student").click(function(){
+    console.log("clicked!");
+    clearSelected();
+    $(this).addClass("selected");
+    $("#loginBox").attr("src", "https://secure.byui.edu/cas/login");
 });
