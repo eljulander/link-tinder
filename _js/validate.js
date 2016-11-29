@@ -121,8 +121,10 @@ linkValidator.validateLinks = function (links, runNext) {
                     console.log("Response: ",response.statusCode, ", URL: ", response.responseUrl);
                     //me.unsure.push(link);
                 }else{
-                    if(isBroken(url))
+                    if(isBroken(url)){
+                        console.log("OOPS! This durn broken!", url);
                         me.invalidLinks.push(link);
+                    }
                     else
                         me.valid.push(link);
                 }
@@ -158,7 +160,7 @@ linkValidator.validateLinks = function (links, runNext) {
                 //console.log(me.unsure);
             }
            
-        },2500);
+        },30000);
         
     }
     
