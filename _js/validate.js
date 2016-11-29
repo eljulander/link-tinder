@@ -121,7 +121,9 @@ linkValidator.validateLinks = function (links, runNext) {
     
     function exists(link, nextPhase) {
       
+        
         var url = link.attr("href") || link.attr("src");
+        //console.flag("Starting Scan for:\n"+url);
         var parser = require("url");
         var stringer = require("querystring");
         var options = {
@@ -131,8 +133,6 @@ linkValidator.validateLinks = function (links, runNext) {
         }
         var done = false;
         if (!options.host){
-            if(options.path.substr(0,4).toLowerCase() !== "/d2l")
-                console.log("Oh No! This link has been framed!", url);
             options.host = "byui.brightspace.com";
         } 
             
@@ -140,25 +140,18 @@ linkValidator.validateLinks = function (links, runNext) {
         var called = false;
         var callback = function (response) {
             
-            if(response.statusCode == 404)
+            if(response.statusCode == 404){
                 me.invalidLinks.push(link);
-            else
-            if(response.statusCode == 403){
+            }else if(response.statusCode == 403){
                 me.unsure.push(link);
-            }else{
-                if(response.responseUrl != url && ! link.attr("src")){
+            }else if(isBroken(url)){
                     console.log("Response: ",response.statusCode, ", URL: ", response.responseUrl);
-                    //me.unsure.push(link);
-                }else{
-                    if(isBroken(url)){
-                        console.log("OOPS! This durn broken!", url);
-                        me.invalidLinks.push(link);
-                    }
-                    else
-                        me.valid.push(link);
-                }
-                
+                    console.log("OOPS! This durn broken!", url);
+                    me.invalidLinks.push(link);
+            }else{
+                me.valid.push(link);
             }
+                
             done = true;
             if(!called){
                 nextPhase(null, link);
@@ -189,7 +182,7 @@ linkValidator.validateLinks = function (links, runNext) {
                 //console.log(me.unsure);
             }
            
-        },30000);
+        },2500);
         
     }
     

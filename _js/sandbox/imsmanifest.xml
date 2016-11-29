@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="D2L_55363" xmlns:d2l_2p0="http://desire2learn.com/xsd/d2lcp_v2p0" xmlns:scorm_1p2="http://www.adlnet.org/xsd/adlcp_rootv1p2" xmlns="http://www.imsglobal.org/xsd/imscp_v1p1">
+    <organizations default="d2l_orgs">
+        <organization identifier="d2l_org">
+            <item identifier="2603006" identifierref="RES_CONTENT_2603006" d2l_2p0:id="1" description="" completion_type="2">
+                <title>The Place of Supreme Awesomeness</title>
+                <item identifier="2603008" identifierref="RES_CONTENT_2603008" d2l_2p0:id="2" description="" completion_type="2" resource_type_key="">
+                    <title>Super place of indirect Awesomeness!</title>
+                </item>
+                <item identifier="2603009" identifierref="RES_CONTENT_2603009" d2l_2p0:id="3" description="" completion_type="2" resource_type_key="">
+                    <title>The Super Awesome Test File of Awesomeness</title>
+                </item>
+                <item identifier="2603016" identifierref="RES_CONTENT_2603016" d2l_2p0:id="4" description="" completion_type="2">
+                    <title>The Place of Lesser, Yet Still Exceedingly Great, Awesomeness</title>
+                    <item identifier="2603018" identifierref="RES_CONTENT_2603018" d2l_2p0:id="5" description="" completion_type="2" resource_type_key="">
+                        <title>The Lesser Test File of Exceedingly Great Awesomeness</title>
+                    </item>
+                </item>
+                <item identifier="2785405" identifierref="RES_CONTENT_2785405" d2l_2p0:id="6" description="" completion_type="2" resource_type_key="">
+                    <title>The Fake Page</title>
+                </item>
+            </item>
+        </organization>
+    </organizations>
+    <resources>
+        <resource identifier="RES_CONTENT_2603006" type="webcontent" d2l_2p0:material_type="contentmodule" d2l_2p0:link_target="" href="" title="" />
+        <resource identifier="RES_CONTENT_2603008" type="webcontent" d2l_2p0:material_type="content" d2l_2p0:link_target="" href="Course Files\Super place of indirect Awesomeness!.html" title="" />
+        <resource identifier="RES_CONTENT_2603009" type="webcontent" d2l_2p0:material_type="content" d2l_2p0:link_target="" href="Course Files\The Super Awesome Test File of Awesomeness.html" title="" />
+        <resource identifier="RES_CONTENT_2603016" type="webcontent" d2l_2p0:material_type="contentmodule" d2l_2p0:link_target="" href="" title="" />
+        <resource identifier="RES_CONTENT_2603018" type="webcontent" d2l_2p0:material_type="content" d2l_2p0:link_target="" href="The Lesser Test File of Exceedingly Great Awesomeness.html" title="" />
+        <resource identifier="RES_CONTENT_2785405" type="webcontent" d2l_2p0:material_type="content" d2l_2p0:link_target="" href="The Fake Page.html" title="" />
+        <resource identifier="res_syllabus" type="webcontent" d2l_2p0:material_type="d2lsyllabus" d2l_2p0:link_target="" href="syllabus_d2l.xml" title="" />
+        <resource identifier="res_quiz_405486" type="webcontent" d2l_2p0:material_type="d2lquiz" d2l_2p0:link_target="" href="quiz_d2l_405486.xml" title="Eric's Test Quiz of Worthiness!" />
+        <resource identifier="res_discuss_1" type="webcontent" d2l_2p0:material_type="d2ldiscussion" d2l_2p0:link_target="" href="discussion_d2l_1.xml" title="" />
+        <resource identifier="res_dropbox" type="webcontent" d2l_2p0:material_type="d2ldropbox" d2l_2p0:link_target="" href="dropbox_d2l.xml" title="" />
+        <resource identifier="res_chklist" type="webcontent" d2l_2p0:material_type="d2lchecklist" d2l_2p0:link_target="" href="checklist_d2l.xml" title="" />
+        <resource identifier="res_grades" type="webcontent" d2l_2p0:material_type="d2lgrades" d2l_2p0:link_target="" href="grades_d2l.xml" title="" />
+        <resource identifier="res_rubrics" type="webcontent" d2l_2p0:material_type="d2lrubrics" d2l_2p0:link_target="" href="rubrics_d2l.xml" title="" />
+    </resources>
+</manifest>

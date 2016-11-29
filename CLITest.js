@@ -16,7 +16,7 @@
                 lv.file += chunk.toString("utf8");
             });
             fileReader.on("end", function () {
-                var anchors = (process.argv[4] === "-xml") ? lv.getLinksFromXML() : lv.getLinks();
+                var anchors = (process.argv[4] === "-xml") ? lv.getLinksFromXML("55363") : lv.getLinks("55363");
                 // writes all links found to a document
                 var doc = "";
                 for (var i = 0; i < anchors.length; i++) {
@@ -28,7 +28,7 @@
                 });
                 // prints results of links
                 lv.validateLinks(anchors, function () {
-                    console.flag("Done Validating Links!\nBroken Links Found: " + lv.invalidLinks.length + "\n" + "Unsure Links: " + lv.unsure.length + "\nCorrect: " + (anchors.length - lv.invalidLinks.length - lv.unsure.length));
+                    console.flag("Done Validating Links!\nBroken Links Found: " + lv.invalidLinks.length + "\n" + "Unsure Links: " + lv.unsure.length + "\nCorrect: " + (anchors.length - lv.invalidLinks.length - lv.unsure.length,lv.valid.length));
                     lv.removeDuplicates();
                     if (lv.invalidLinks.length > 0) {
                         console.log("\n");
@@ -47,8 +47,15 @@
                     if (lv.valid.length > 0) {
                         console.log("\n");
                         console.flag("Valid: ");
-                        for (var i in lv.valid) console.log(lv.valid[i].attr("src") || lv.valid[i].attr("src"));
+                        for (var i in lv.valid){
+                            console.log(i);
+                            console.log(lv.valid[i].attr("src") || lv.valid[i].attr("href"));
+                        } 
+                            
                     }
+                    console.flag("Links Recieved");
+                    for(var i = 0; i < anchors.length; i++)
+                        console.log(anchors.eq(i).attr("src") || anchors.eq(i).attr("href"));
                 });
             });
         }());
