@@ -108,6 +108,7 @@ linkValidator.validateLinks = function (links, runNext) {
         var done = false;
         if (!options.host) options.host = "byui.brightspace.com";
         var red = "";
+        var called = false;
         var callback = function (response) {
             
             if(response.statusCode == 404)
@@ -118,7 +119,7 @@ linkValidator.validateLinks = function (links, runNext) {
             }else{
                 if(response.responseUrl != url && ! link.attr("src")){
                     console.log("Response: ",response.statusCode, ", URL: ", response.responseUrl);
-                    me.unsure.push(link);
+                    //me.unsure.push(link);
                 }else{
                     if(isBroken(url))
                         me.invalidLinks.push(link);
@@ -128,7 +129,10 @@ linkValidator.validateLinks = function (links, runNext) {
                 
             }
             done = true;
-            nextPhase(null, link);
+            if(!called){
+                nextPhase(null, link);
+                called = true;
+            }
         }
         
         var http = require("follow-redirects").http;
@@ -136,15 +140,21 @@ linkValidator.validateLinks = function (links, runNext) {
             me.invalidLinks.push(link);
             console.log("Oops. Err.", url);
             done = true;
-             nextPhase(null, link);
+            if(!called){
+                nextPhase(null, link);
+                called = true;
+            }
         }).end();
         
         setTimeout(function(){
            // console.log("Triggered", url);
             if(!done){
-                console.log("Abort Mission!");
+                console.log("Abort Mission!",url);
                 me.unsure.push(link);
-                nextPhase(null, link);
+                if(!called){
+                    nextPhase(null, link);
+                    called = true;
+                }
                 //console.log(me.unsure);
             }
            
