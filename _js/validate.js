@@ -55,26 +55,47 @@ var linkValidator = LinkValidator.prototype;
 /*
  * Finds invalid links from document
  */
-linkValidator.getLinksFromXML = function () {
-        var xml = this.file;
-        var $ = cheerio.load(xml);
-        var html = $("mattext[texttype='text/html']");
-        var htmlDocument = "";
-        for (var i = 0; i < html.length; i++) {
-            var document = html.eq(i).html();
-            document = decodeURI(document);
-            document = document.replace(/&lt;/g, "<");
-            document = document.replace(/&gt;/g, ">");
-            document = document.replace(/&quot;/g, "\"");
-            document = document.replace(/&amp;/g, "&");
-            document = document.replace(/&amp;/g, "&");
-            htmlDocument += document;
-        }
-        return cheerio.load(htmlDocument)("a, img");
+linkValidator.getLinksFromXML = function (org) {
+    var xml = this.file;
+    var $ = cheerio.load(xml);
+    var html = $("mattext[texttype='text/html']");
+    var htmlDocument = "";
+    for (var i = 0; i < html.length; i++) {
+        var document = html.eq(i).html();
+        document = decodeURI(document);
+        document = document.replace(/&lt;/g, "<");
+        document = document.replace(/&gt;/g, ">");
+        document = document.replace(/&quot;/g, "\"");
+        document = document.replace(/&amp;/g, "&");
+        document = document.replace(/&amp;/g, "&");
+        htmlDocument += document;
+    }
+        
+    var links = cheerio.load(htmlDocument)("a, img");
+    if(org)
+    for(var i in links){
+        var current = links.eq(i);
+        if(current.attr("src"))
+            current.attr("src", current.attr("src").replace(/(\{orgUnitId\})/g, org))
+        if(current.attr("href"))
+            current.attr("href", current.attr("href").replace(/(\{orgUnitId\})/g, org))
+    }    
+    
+    return links; 
 };
     
-linkValidator.getLinks = function(){
-        return cheerio.load(this.file)("a, img");
+linkValidator.getLinks = function(org){
+        
+    var links = cheerio.load(this.file)("a, img");
+    if(org)
+    for(var i = 0; i < links.length; i++){
+        var current = links.eq(i);
+        if(current.attr("src"))
+            current.attr("src", current.attr("src").replace(/(\{orgUnitId\})/g, org))
+        if(current.attr("href"))
+            current.attr("href", current.attr("href").replace(/(\{orgUnitId\})/g, org))
+    }
+    return links;
 };
     
 //links is a cheerio object
@@ -85,10 +106,13 @@ linkValidator.validateLinks = function (links, runNext) {
         var urls = me.blackList;
         var broken = false;
         for(var i in urls){
-            var current = urls[i];
-            if(url.match(new RegExp(current, "g"))){
+            var current = urls[i].link;
+            if(url.match(new RegExp("("+current+")", "g"))){
+                console.log(url.match(new RegExp("("+current+")", "g")));
                 broken = true;
                 break;
+            }else{
+                console.log(`${current} was not found in ${url}`, current);
             }
         }
         
@@ -106,7 +130,12 @@ linkValidator.validateLinks = function (links, runNext) {
             path: parser.parse(url, true).pathname +"?"+stringer.stringify(parser.parse(url, true).query)
         }
         var done = false;
-        if (!options.host) options.host = "byui.brightspace.com";
+        if (!options.host){
+            if(options.path.substr(0,4).toLowerCase() !== "/d2l")
+                console.log("Oh No! This link has been framed!", url);
+            options.host = "byui.brightspace.com";
+        } 
+            
         var red = "";
         var called = false;
         var callback = function (response) {

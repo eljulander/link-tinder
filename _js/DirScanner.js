@@ -20,6 +20,7 @@ var Scanner = (function () {
     };
     proto.validateFiles = function (nextStep) {
         var fs = require('fs');
+        var me = this;
         fs.mkdirSync("./temp", function(err){if(err) throw err;})
         this.zip.extractAllTo("./temp")
         var deleteFolderRecursive = function (path) {
@@ -42,7 +43,14 @@ var Scanner = (function () {
         function getValidatedLinks(path, callback) {
             var validator = new LinkScanner(fs.readFileSync("./temp/"+path).toString());
             validator.fileName = path;
-            var links = (path.indexOf(".xml") >= 0) ? validator.getLinksFromXML() : validator.getLinks();
+            var ou;
+            try{
+              ou = me.dir.split("\\").reverse()[0].match(/_+.+_/g)[0].replace(/[_]/g, "");
+            }catch(e){
+              ou = me.dir.split("/").reverse()[0].match(/_+.+_/g)[0].replace(/[_]/g, "");
+            }
+            console.log("OU: "+ou);
+            var links = (path.indexOf(".xml") >= 0) ? validator.getLinksFromXML(ou) : validator.getLinks(ou);
             validator.validateLinks(links, function(){
                 console.log("Finished Scanning...");
                 validator.removeDuplicates();
