@@ -51,6 +51,8 @@ var Scanner = (function () {
             }
             console.log("OU: "+ou);
             var links = (path.indexOf(".xml") >= 0) ? validator.getLinksFromXML(ou) : validator.getLinks(ou);
+            //used for relative links
+            validator.currentPath = path;//.match(/.*\//g)[0];
             validator.validateLinks(links, function(){
                 console.log("Finished Scanning...");
                 validator.removeDuplicates();

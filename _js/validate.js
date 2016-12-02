@@ -46,6 +46,7 @@ var LinkValidator = function (file) {
     this.unsure = [];
     this.valid = [];
     this.blackList = JSON.parse(fs.readFileSync("./_js/properties.json").toString()).blacklist;
+    this.org = "12345";
     //console.flag("Blacklist\n"+this.blackList);
 }
 var $async = require("async");
@@ -56,6 +57,7 @@ var linkValidator = LinkValidator.prototype;
  * Finds invalid links from document
  */
 linkValidator.getLinksFromXML = function (org) {
+    this.org = org;
     var xml = this.file;
     var $ = cheerio.load(xml);
     var html = $("mattext[texttype='text/html']");
@@ -85,7 +87,7 @@ linkValidator.getLinksFromXML = function (org) {
 };
     
 linkValidator.getLinks = function(org){
-        
+    this.org = org;
     var links = cheerio.load(this.file)("a, img");
     if(org)
     for(var i = 0; i < links.length; i++){
@@ -105,6 +107,7 @@ linkValidator.validateLinks = function (links, runNext) {
     function isBroken(url){
         var urls = me.blackList;
         var broken = false;
+        
         for(var i in urls){
             var current = urls[i].link;
             if(url.match(new RegExp("("+current+")", "g"))){
@@ -124,6 +127,7 @@ linkValidator.validateLinks = function (links, runNext) {
         
         var url = link.attr("href") || link.attr("src");
         //console.flag("Starting Scan for:\n"+url);
+        
         var parser = require("url");
         var stringer = require("querystring");
         var options = {
@@ -133,11 +137,51 @@ linkValidator.validateLinks = function (links, runNext) {
         }
         var done = false;
         if (!options.host){
+            if(options.path.substr(0,4).toLowerCase() !== "/d2l"){
+                // preforms a search for the file locally
+                if(me.currentPath){
+                    console.log("PATH ME: ", me.currentPath);
+                    fs.stat("./temp/"+me.currentPath, function(err, data){
+                        if(err){
+                            me.invalidLinks.push(link);
+                            nextPhase(null,link);
+                            called = true;
+                            return;
+                        }
+                        
+                        me.valid.push(link);
+                        nextPhase(null,link);
+                        called = true;
+                    });
+                    
+                    return;
+                }
+            }else{
+                console.log("MY PATH: ",options.path);
+                if(url.match(/ou=+\d*/g) && url.match(/ou=+\d*/g)[0].split("=")[1] !== this.ou){
+                    console.flag("He is not one of us! He will be executed at once.");
+                    me.invalidLinks.push(link);
+                    if(!called){
+                        nextPhase(null, link);
+                        called = true;
+                    }
+                }else{
+                    console.flag("Clear: ", url);
+                }
+            }
             options.host = "byui.brightspace.com";
         } 
-            
+        
         var red = "";
         var called = false;
+        if(url === "#"){
+            done = true;
+            called  = true;
+            me.valid.push(link);
+            nextPhase(null, link);
+            return;
+        }
+        
         var callback = function (response) {
             
             if(response.statusCode == 404){
@@ -154,8 +198,12 @@ linkValidator.validateLinks = function (links, runNext) {
                 
             done = true;
             if(!called){
-                nextPhase(null, link);
-                called = true;
+                try{
+                    nextPhase(null, link);
+                    called = true;
+                }catch(e){
+                    console.log("Oops.. I guess something already happened!");
+                }
             }
         }
         

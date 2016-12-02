@@ -1,14 +1,6 @@
 Path, Broken, Unsure
 quiz_d2l_405486.xml,0, 1
  ,-, /d2l/common/dialogs/quickLink/quickLink.d2l?ou=55363&type=coursefile&fileId=Course+Files%2fWhatevs+this+is+still+awesome.html," "
-The Lesser Test File of Exceedingly Great Awesomeness.html,2, 2
- ,Course%20Files/Whatevs%20this%20is%20still%20awesome.html, https://byui.brinhoney.com/yadayada," "
- ,https://box.com/randomtestfile, /d2l/le/content/55363/contentfile/2603018/EditFile?fm=0," "
-The Fake Page.html,1, 0
- ,https://www.fakewebsiteofsupremeesakeness.com, -," "
-Web Files/large.html,1, 0
- ,#, -," "
-Web Files/small.html,1, 0
- ,#, -," "
-Web Files/checkboxExample.html,1, 0
- ,smallBanner.jpg, -," "
+The Lesser Test File of Exceedingly Great Awesomeness.html,1, 2
+ ,https://box.com/randomtestfile, https://byui.brinhoney.com/yadayada," "
+ ,-, /d2l/le/content/55363/contentfile/2603018/EditFile?fm=0," "
