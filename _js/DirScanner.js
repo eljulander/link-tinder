@@ -1,3 +1,4 @@
+var inProgress = {};
 var Scanner = (function () {
     "use strict";
     var admZip = require("adm-zip");
@@ -39,8 +40,20 @@ var Scanner = (function () {
         };
         
 
-        
+        var index = 0;
         function getValidatedLinks(path, callback) {
+            console.log("Index:",index, path);
+            inProgress[index] = path;
+            function currIndex(i){
+                return function(){
+                    delete inProgress[i];
+                    console.log("Finished", i, path);
+                    console.log("Finished Scanning...");
+                    validator.removeDuplicates();
+                    callback(null, validator);
+                    console.log(inProgress);
+                };
+            }
             var validator = new LinkScanner(fs.readFileSync("./temp/"+path).toString());
             validator.fileName = path;
             var ou;
@@ -49,15 +62,12 @@ var Scanner = (function () {
             }catch(e){
               ou = me.dir.split("/").reverse()[0].match(/_+.+_/g)[0].replace(/[_]/g, "");
             }
-            console.log("OU: "+ou);
+            //console.log("OU: "+ou);
             var links = (path.indexOf(".xml") >= 0) ? validator.getLinksFromXML(ou) : validator.getLinks(ou);
             //used for relative links
             validator.currentPath = path;//.match(/.*\//g)[0];
-            validator.validateLinks(links, function(){
-                console.log("Finished Scanning...");
-                validator.removeDuplicates();
-                callback(null, validator);
-            });
+            validator.validateLinks(links, currIndex(index));
+            index++;
         }
         
         $async.map(this.filesToValidate, getValidatedLinks, function (err, links) {
